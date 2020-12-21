@@ -41,8 +41,8 @@ public class FilterChainImpl implements FilterChain {
                         filter.init(null);
                     }
                 }
+                System.out.println("================== filter init success ================");
             }
-            System.out.println("================== filter init success ================");
         } catch (Exception e) {
             System.err.print(" init filter error.");
             e.printStackTrace();

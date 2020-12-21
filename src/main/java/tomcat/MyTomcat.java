@@ -50,9 +50,9 @@ public class MyTomcat {
         // 初始化HttpServlet
         new HttpServlet();
         while (true) {
-            // 死循环获取连接
+            // 死循环获取连接, accept操作会阻塞
             Socket accept = socket.accept();
-            //  BIO模式, 每连接对应每线程处理
+            // BIO模式, 每连接对应每线程处理
             executor.execute(() -> handler(accept));
             Thread.sleep(10);
         }
@@ -89,12 +89,16 @@ public class MyTomcat {
             while ((len = in.read(bytes)) != -1) {
                 // 获取到请求数据
                 String content = new String(bytes, 0, len, "utf-8");
+                System.out.println("content = " + content);
                 if (content.contains("HTTP/1.1")) {
                     // 处理http请求
                     execute(content, out);
+                    System.out.println("请求处理时间 = " + (System.currentTimeMillis() - l) + "ms");
+                    break;// 长连接不需要break
+                } else {
+                    out.write("sorry, this request method is not supported".getBytes());
+                    break;
                 }
-                System.out.println("请求处理时间 = " + (System.currentTimeMillis() - l) + "ms");
-                break;
             }
         } catch (Exception e) {
             e.printStackTrace();
