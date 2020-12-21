@@ -33,7 +33,10 @@ public class MyTomcat {
 
     private static ServerSocket socket;
 
-    private int port;
+    private int port = 8080;
+
+    public MyTomcat() {
+    }
 
     public MyTomcat(int port) {
         this.port = port;

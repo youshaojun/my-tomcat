@@ -13,7 +13,7 @@ public class Starter {
     public static void main(String[] args) throws Exception {
         // 打开dispatcherServlet
         // DISPATCHER_SERVLET_FLAG = true;
-        MyTomcat tomcat = new MyTomcat(8080);
+        MyTomcat tomcat = new MyTomcat();
         tomcat.run();
     }
 }
