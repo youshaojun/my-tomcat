@@ -19,7 +19,7 @@ public class MyFilter02 implements Filter {
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws Exception {
         System.out.println("MyFilter02 load......");
-        Thread.sleep(500);
+        //Thread.sleep(500);
         chain.doFilter(request, response);
     }
 

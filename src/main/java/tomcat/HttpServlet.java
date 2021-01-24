@@ -36,7 +36,7 @@ public class HttpServlet implements Servlet {
                 }
             });
             System.out.println(servlets);
-            System.out.println("=============== servlet ioc load success ================");
+            System.out.println("=============== servlets load success ================");
         }
     }
 

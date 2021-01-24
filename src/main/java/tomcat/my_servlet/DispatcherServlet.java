@@ -46,7 +46,7 @@ public class DispatcherServlet extends HttpServlet {
         String url = request.getUrl();
         Map<String, Object> map = requestMappings.get(url);
         if (map == null) {
-            MyTomcat.error404(response.getOut());
+            response.getOut().write(HttpServletResponse.error404());
         } else {
             Object clazz = map.get("clazz");
             // 通过Java反射执行相应的方法
