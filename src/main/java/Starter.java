@@ -11,10 +11,12 @@ import static tomcat.MyTomcat.DISPATCHER_SERVLET_FLAG;
 public class Starter {
 
     public static void main(String[] args) throws Exception {
+
         // 打开dispatcherServlet
         // DISPATCHER_SERVLET_FLAG = true;
         MyTomcat tomcat = new MyTomcat(true);
         tomcat.run();
 
     }
+
 }

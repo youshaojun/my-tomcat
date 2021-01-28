@@ -28,6 +28,13 @@
             <artifactId>lombok</artifactId>
             <version>1.18.10</version>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>5.0.7</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

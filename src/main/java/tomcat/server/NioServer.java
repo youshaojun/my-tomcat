@@ -1,8 +1,11 @@
 package tomcat.server;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import tomcat.HttpServlet;
 import tomcat.HttpServletResponse;
+import tomcat.MyTomcat;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -92,14 +95,14 @@ public class NioServer {
             if (len < 0) {
                 sc.close();
             }
+            buffer.clear();
+            sc.configureBlocking(false);
             // 处理Http请求
             if (content.contains("HTTP/1.1")) {
-                buffer.clear();
-                sc.configureBlocking(false);
-                Object obj = HttpServlet.servlets.get(content.split("/")[1].split("\\?")[0]);
+                Object obj = HttpServlet.servlets.get(content.split("/")[1]);
                 if (obj != null) {
                     try {
-                        Object data = obj.getClass().getMethod(content.split("/")[2].split("\\?")[0]).invoke(obj);
+                        Object data = obj.getClass().getMethod(content.contains("?") ? content.split("/")[2].split("\\?")[0] : content.split("/")[2].split(" ")[0]).invoke(obj);
                         buffer.put(response(200, "success", data));
                     } catch (Exception e) {
                         buffer.put(response(500, "无效请求.", e));
@@ -111,6 +114,12 @@ public class NioServer {
                 sc.register(selector, SelectionKey.OP_WRITE, buffer);
                 break;
             }
+            String response = "^-^";
+            if (StrUtil.isNotBlank(content)) {
+                response = JSONObject.parseObject(HttpUtil.get(MyTomcat.ROBOT_URL + content)).getString("content") + "\n";
+            }
+            buffer.put(response.getBytes());
+            sc.write(buffer);
             break;
         }
     }
@@ -124,6 +133,7 @@ public class NioServer {
         buffer.flip();
         // 写服务器响应数据
         sc.write(buffer);
+        buffer.clear();
         // 关闭连接
         sc.close();
     }

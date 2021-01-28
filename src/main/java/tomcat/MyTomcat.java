@@ -18,6 +18,8 @@ public class MyTomcat {
 
     public static boolean DISPATCHER_SERVLET_FLAG = false;
 
+    public static final String ROBOT_URL = "http://api.qingyunke.com/api.php?key=free&appid=0&msg=";
+
     private int port = 8080;
 
     private boolean isNio = false;

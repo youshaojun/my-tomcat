@@ -1,10 +1,13 @@
 package tomcat.server;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import tomcat.HttpServlet;
 import tomcat.HttpServletRequest;
 import tomcat.HttpServletResponse;
+import tomcat.MyTomcat;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -62,8 +65,15 @@ public class BioServer {
                     System.out.println("请求处理时间 = " + (System.currentTimeMillis() - l) + "ms");
                     break;// 长连接不需要break
                 } else {
-                    out.write("sorry, this request method is not supported".getBytes());
-                    break;
+                    if (content.contains("exist")) {
+                        out.write("^-^ bye ^-^".getBytes());
+                        break;
+                    }
+                    String response = "^-^";
+                    if (StrUtil.isNotBlank(content)) {
+                        response = JSONObject.parseObject(HttpUtil.get(MyTomcat.ROBOT_URL + content)).getString("content") + "\n";
+                    }
+                    out.write(response.getBytes());
                 }
             }
         } catch (Exception e) {
@@ -118,7 +128,7 @@ public class BioServer {
         if (DISPATCHER_SERVLET_FLAG) {
             path = "dispatcherServlet";
         } else {
-            path = content.split("/")[1].split("\\?")[0];
+            path = content.contains("?") ? content.split("/")[1].split("\\?")[0] : content.split("/")[1].split(" ")[0];
         }
         Object obj = HttpServlet.servlets.get(path);
         if (obj != null) {
@@ -128,4 +138,5 @@ public class BioServer {
             out.write(HttpServletResponse.error404());
         }
     }
+
 }
