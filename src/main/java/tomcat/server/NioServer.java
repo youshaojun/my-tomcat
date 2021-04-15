@@ -23,7 +23,7 @@ public class NioServer {
     private static Selector selector = null;
 
     public static void nioServer(int port) throws Exception {
-        // 初始化socket
+        //  初始化socket
         ServerSocketChannel ssc = ServerSocketChannel.open();
         // 绑定端口
         ssc.bind(new InetSocketAddress(port));
