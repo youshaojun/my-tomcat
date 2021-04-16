@@ -47,12 +47,8 @@ public class BioServer {
      * 处理请求
      */
     private static void handlerBio(Socket socket) {
-        InputStream in = null;
-        OutputStream out = null;
-        try {
+        try (InputStream in = socket.getInputStream(); OutputStream out = socket.getOutputStream()) {
             long l = System.currentTimeMillis();
-            in = socket.getInputStream();
-            out = socket.getOutputStream();
             byte[] bytes = new byte[1024];
             int len;
             while ((len = in.read(bytes)) != -1) {
@@ -78,17 +74,6 @@ public class BioServer {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
