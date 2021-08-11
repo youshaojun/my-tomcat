@@ -28,7 +28,7 @@ public class HttpServlet implements Servlet {
             new Reflections("tomcat").getSubTypesOf(HttpServlet.class).forEach(servlet -> {
                 try {
                     String simpleName = servlet.getSimpleName();
-                    servlets.put((simpleName.charAt(0) + "").toLowerCase() + simpleName.substring(1, simpleName.length()), servlet.newInstance());
+                    servlets.put((simpleName.charAt(0) + "").toLowerCase() + simpleName.substring(1), servlet.newInstance());
                 } catch (Exception e) {
                     System.err.println("init servlet error.");
                     e.printStackTrace();

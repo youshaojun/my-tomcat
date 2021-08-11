@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -57,7 +58,7 @@ public class BioServer {
             int len;
             while ((len = in.read(bytes)) != -1) {
                 // 获取到请求数据
-                String content = new String(bytes, 0, len, "utf-8");
+                String content = new String(bytes, 0, len, StandardCharsets.UTF_8);
                 System.out.println("content = " + content);
                 if (content.contains("HTTP/1.1")) {
                     // 处理http请求

@@ -91,7 +91,7 @@ public class NioServer {
                     content = new String(bytes);
                 }
             }
-            // 等于-1手动关闭通道, 否则会出现空轮训
+            // 等于-1手动关闭通道, 否则会出现空轮询
             if (len < 0) {
                 sc.close();
             }
